@@ -1,4 +1,4 @@
-version: '1.0'
+version: '3'
 services:
   zookeeper1:
     image: wurstmeister/zookeeper
@@ -44,11 +44,9 @@ services:
       # 设置 kafka 日志位置
       KAFKA_LOG_DIRS: "/kafka/logs"
       # kafka 自动创建 topic，对于生成者与消费者连接的 TOPIC 不存在自动创建
-      KAFKA_AUTO_CREATE_TOPICS_ENABLE: true
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
       # kafka 开启删除 topic，开了自动创建，删除的也要开，否则删除后还会自动创建
-      KAFKA_DELETE_TOPIC_ENABLE: true
-    extra_hosts:
-      kafka2: 110.42.242.203
+      KAFKA_DELETE_TOPIC_ENABLE: "true"
     volumes:
       # Docker守护进程（Docker daemon）默认监听的Unix域套接字（Unix domain socket），容器中的进程可以通过它与Docker守护进程进行通信
       # 简单来说容器使用宿主机 docker 命令
@@ -80,11 +78,9 @@ services:
       # 设置 kafka 日志位置
       KAFKA_LOG_DIRS: "/kafka/logs"
       # kafka 自动创建 topic，对于生成者与消费者连接的 TOPIC 不存在自动创建
-      KAFKA_AUTO_CREATE_TOPICS_ENABLE: true
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
       # kafka 开启删除 topic，开了自动创建，删除的也要开，否则删除后还会自动创建
-      KAFKA_DELETE_TOPIC_ENABLE: true
-    extra_hosts:
-      kafka2: 110.42.242.203
+      KAFKA_DELETE_TOPIC_ENABLE: "true"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       # 挂载 kafka 日志

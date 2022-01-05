@@ -1,96 +1,50 @@
 version: '3'
 services:
-  zookeeper1:
+  zookeeper:
     image: zookeeper:3.5.5
-    container_name: zookeeper1
+    container_name: zookeeper
+    hostname: zookeeper
+    ports:
+      - "2181:2181"
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
-    ports:
-      - "22181:2181"
-    restart: always
-
-  zookeeper2:
-    image: zookeeper:3.5.5
-    container_name: zookeeper2
-    environment:
-      ZOOKEEPER_CLIENT_PORT: 2181
-      ZOOKEEPER_TICK_TIME: 2000
-    ports:
-      - "32181:2181"
+      ZOOKEEPER_SERVERS: zookeeper:12888:13888
     restart: always
 
   kafka1:
-    image: wurstmeister/kafka:2.12-2.4.1
-    depends_on:
-      - zookeeper1
-      - zookeeper2
-    external_links:
-      - zookeeper1
-      - zookeeper2
+    image: wurstmeister/kafka:2.12-2.2.1
     container_name: kafka1
     hostname: kafka1
-    restart: always
+    depends_on:
+      - zookeeper
     ports:
       - "9092:9092"
     environment:
       # 广播主机名: 一般为宿主机 IP
-      KAFKA_ADVERTISED_HOST_NAME: 172.0.0.1
+      KAFKA_ADVERTISED_HOST_NAME: 127.0.0.1
       # 通过端口连接 zookeeper
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper1:2181,zookeeper2:2181
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       # 外部网络只能获取到容器名称，在内外网络隔离情况下，通过名称是无法成功访问 kafka 的
       # 因此需要通过绑定这个监听器能够让外部获取到的是 IP(宿主机IP)
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://172.0.0.1:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://127.0.0.1:9092
       KAFKA_ADVERTISED_PORT: 9092
       # kafka 监听器，告诉外部连接者要通过什么协议访问指定主机名和端口开放的 Kafka 服务
       KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
-      # 设置 kafka 日志位置
-      KAFKA_LOG_DIRS: "/kafka/logs"
       # kafka 自动创建 topic，对于生成者与消费者连接的 TOPIC 不存在自动创建
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
       # kafka 开启删除 topic，开了自动创建，删除的也要开，否则删除后还会自动创建
       KAFKA_DELETE_TOPIC_ENABLE: "true"
-    volumes:
+      # 设置 kafka 日志位置
+      KAFKA_LOG_DIRS: "/kafka/logs"
+      KAFKA_LOG4J_LOGGERS: "kafka.controller=INFO,kafka.producer.async.DefaultEventHandler=INFO,state.change.logger=INFO"
+    #volumes:
       # Docker守护进程（Docker daemon）默认监听的Unix域套接字（Unix domain socket），容器中的进程可以通过它与Docker守护进程进行通信
       # 简单来说容器使用宿主机 docker 命令
-      - /var/run/docker.sock:/var/run/docker.sock
+    #  - /var/run/docker.sock:/var/run/docker.sock
       # 挂载 kafka 日志
-      - /var/log/kafka/logs:/kafka/logs
-
-  kafka2:
-    image: wurstmeister/kafka:2.12-2.4.1
-    depends_on:
-      - zookeeper1
-      - zookeeper2
-    external_links:
-      - zookeeper1
-      - zookeeper2
-    container_name: kafka2
-    hostname: kafka2
+     # - /var/log/kafka/logs:/kafka/logs
     restart: always
-    ports:
-      - "9093:9092"
-    environment:
-      # 广播主机名: 一般为宿主机 IP
-      KAFKA_ADVERTISED_HOST_NAME: 172.0.0.1
-      # 通过端口连接 zookeeper
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper1:2181,zookeeper2:2181
-      # 外部网络只能获取到容器名称，在内外网络隔离情况下，通过名称是无法成功访问 kafka 的
-      # 因此需要通过绑定这个监听器能够让外部获取到的是 IP(宿主机IP)
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://172.0.0.1:9093
-      KAFKA_ADVERTISED_PORT: 9093
-      # kafka 监听器，告诉外部连接者要通过什么协议访问指定主机名和端口开放的 Kafka 服务
-      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9093
-      # 设置 kafka 日志位置
-      KAFKA_LOG_DIRS: "/kafka/logs"
-      # kafka 自动创建 topic，对于生成者与消费者连接的 TOPIC 不存在自动创建
-      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
-      # kafka 开启删除 topic，开了自动创建，删除的也要开，否则删除后还会自动创建
-      KAFKA_DELETE_TOPIC_ENABLE: "true"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      # 挂载 kafka 日志
-      - /var/log/kafka/logs:/kafka/logs
 
   kafka-manager:
     container_name: kafka-manager
@@ -99,12 +53,10 @@ services:
       - 9000:9000
     environment:
       # 宿主机IP
-      ZK_HOSTS: zookeeper1:2181,zookeeper2:2181
+      ZK_HOSTS: zookeeper:2181
       KAFKA_MANAGER_AUTH_ENABLED: "true"
       KAFKA_MANAGER_USERNAME: admin
       KAFKA_MANAGER_PASSWORD: admin123
     depends_on:
       - kafka1
-      - kafka2
-      - zookeeper1
-      - zookeeper2
+      - zookeeper
