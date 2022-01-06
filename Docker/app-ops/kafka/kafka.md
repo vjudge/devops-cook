@@ -2,24 +2,27 @@
 
 # 启动服务
 ```shell
-docker-compose -f kafka-multi-test.yml up -d
+docker-compose -f multi-zk-multi-kafka.yml up -d
 ```
 
 
 ### 停止服务
 ```shell
-docker-compose -f kafka-multi-test.yml stop
+docker-compose -f multi-zk-multi-kafka.yml stop
 ```
 
 
 ### 停止并删除服务
 ```shell
-docker-compose -f kafka-multi-test.yml down
+docker-compose -f multi-zk-multi-kafka.yml down
 ```
 
 
 
-
+### 其他项目
+```
+https://github.com/conduktor/kafka-stack-docker-compose
+```
 
 
 
