@@ -7,6 +7,7 @@ services:
     ports:
       - "2181:2181"
     environment:
+      ZOOKEEPER_SERVER_ID: 1
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
       ZOOKEEPER_SERVERS: zookeeper:12888:13888
@@ -32,18 +33,18 @@ services:
       # kafka 监听器，告诉外部连接者要通过什么协议访问指定主机名和端口开放的 Kafka 服务
       KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
       # kafka 自动创建 topic，对于生成者与消费者连接的 TOPIC 不存在自动创建
-      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+      # KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
       # kafka 开启删除 topic，开了自动创建，删除的也要开，否则删除后还会自动创建
-      KAFKA_DELETE_TOPIC_ENABLE: "true"
+      # KAFKA_DELETE_TOPIC_ENABLE: "true"
       # 设置 kafka 日志位置
-      KAFKA_LOG_DIRS: "/kafka/logs"
+      # KAFKA_LOG_DIRS: "/kafka/logs"
       KAFKA_LOG4J_LOGGERS: "kafka.controller=INFO,kafka.producer.async.DefaultEventHandler=INFO,state.change.logger=INFO"
-    #volumes:
+    # volumes:
       # Docker守护进程（Docker daemon）默认监听的Unix域套接字（Unix domain socket），容器中的进程可以通过它与Docker守护进程进行通信
       # 简单来说容器使用宿主机 docker 命令
-    #  - /var/run/docker.sock:/var/run/docker.sock
+      # - /var/run/docker.sock:/var/run/docker.sock
       # 挂载 kafka 日志
-     # - /var/log/kafka/logs:/kafka/logs
+      # - /var/log/kafka/logs:/kafka/logs
     restart: always
 
   kafka-manager:

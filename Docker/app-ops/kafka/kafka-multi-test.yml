@@ -4,13 +4,36 @@ services:
     image: zookeeper:3.5.5
     container_name: zookeeper1
     hostname: zookeeper1
-    ports:
-      - "2181:2181"
     environment:
-      ZOOKEEPER_SERVER_ID: 1
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
-      ZOOKEEPER_SERVERS: zookeeper1:12888:13888
+      ZOOKEEPER_SERVERS: zookeeper1:12888:13888;zookeeper2:22888:23888;zookeeper3:32888:33888
+    ports:
+      - "2181:2181"
+    restart: always
+
+  zookeeper2:
+    image: zookeeper:3.5.5
+    container_name: zookeeper2
+    hostname: zookeeper2
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2182
+      ZOOKEEPER_TICK_TIME: 2000
+      ZOOKEEPER_SERVERS: zookeeper1:12888:13888;zookeeper2:22888:23888;zookeeper3:32888:33888
+    ports:
+      - "2182:2182"
+    restart: always
+
+  zookeeper3:
+    image: zookeeper:3.5.5
+    container_name: zookeeper3
+    hostname: zookeeper3
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2183
+      ZOOKEEPER_TICK_TIME: 2000
+      ZOOKEEPER_SERVERS: zookeeper1:12888:13888;zookeeper2:22888:23888;zookeeper3:32888:33888
+    ports:
+      - "2183:2183"
     restart: always
 
   kafka1:
@@ -19,13 +42,15 @@ services:
     hostname: kafka1
     depends_on:
       - zookeeper1
+      - zookeeper2
+      - zookeeper3
     ports:
       - "9092:9092"
     environment:
       # 广播主机名: 一般为宿主机 IP
       KAFKA_ADVERTISED_HOST_NAME: 127.0.0.1
       # 通过端口连接 zookeeper
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper1:2181
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper1:2181,zookeeper2:2182,zookeeper3:2183
       # 外部网络只能获取到容器名称，在内外网络隔离情况下，通过名称是无法成功访问 kafka 的
       # 因此需要通过绑定这个监听器能够让外部获取到的是 IP(宿主机IP)
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://127.0.0.1:9092
@@ -53,13 +78,15 @@ services:
     hostname: kafka2
     depends_on:
       - zookeeper1
+      - zookeeper2
+      - zookeeper3
     ports:
       - "9093:9093"
     environment:
       # 广播主机名: 一般为宿主机 IP
       KAFKA_ADVERTISED_HOST_NAME: 127.0.0.1
       # 通过端口连接 zookeeper
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper1:2181
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper1:2181,zookeeper2:2182,zookeeper3:2183
       # 外部网络只能获取到容器名称，在内外网络隔离情况下，通过名称是无法成功访问 kafka 的
       # 因此需要通过绑定这个监听器能够让外部获取到的是 IP(宿主机IP)
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://127.0.0.1:9093
@@ -87,13 +114,15 @@ services:
     hostname: kafka3
     depends_on:
       - zookeeper1
+      - zookeeper2
+      - zookeeper3
     ports:
       - "9094:9094"
     environment:
       # 广播主机名: 一般为宿主机 IP
       KAFKA_ADVERTISED_HOST_NAME: 127.0.0.1
       # 通过端口连接 zookeeper
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper1:2181
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper1:2181,zookeeper2:2182,zookeeper3:2183
       # 外部网络只能获取到容器名称，在内外网络隔离情况下，通过名称是无法成功访问 kafka 的
       # 因此需要通过绑定这个监听器能够让外部获取到的是 IP(宿主机IP)
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://127.0.0.1:9094
@@ -122,7 +151,7 @@ services:
       - 9000:9000
     environment:
       # 宿主机IP
-      ZK_HOSTS: zookeeper1:2181
+      ZK_HOSTS: zookeeper1:2181,zookeeper2:2182,zookeeper3:2183
       KAFKA_MANAGER_AUTH_ENABLED: "true"
       KAFKA_MANAGER_USERNAME: admin
       KAFKA_MANAGER_PASSWORD: admin123
@@ -131,3 +160,5 @@ services:
       - kafka2
       - kafka3
       - zookeeper1
+      - zookeeper2
+      - zookeeper3
