@@ -24,12 +24,12 @@ services:
     environment:
       KAFKA_BROKER_ID: 1
       # 广播主机名: 一般为宿主机 IP
-      KAFKA_ADVERTISED_HOST_NAME: 127.0.0.1
+      KAFKA_ADVERTISED_HOST_NAME: localhost
       # 通过端口连接 zookeeper
       KAFKA_ZOOKEEPER_CONNECT: zookeeper1:2181
       # 外部网络只能获取到容器名称，在内外网络隔离情况下，通过名称是无法成功访问 kafka 的
       # 因此需要通过绑定这个监听器能够让外部获取到的是 IP(宿主机IP)
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://127.0.0.1:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
       KAFKA_ADVERTISED_PORT: 9092
       # kafka 监听器，告诉外部连接者要通过什么协议访问指定主机名和端口开放的 Kafka 服务
       KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
@@ -59,12 +59,12 @@ services:
     environment:
       KAFKA_BROKER_ID: 2
       # 广播主机名: 一般为宿主机 IP
-      KAFKA_ADVERTISED_HOST_NAME: 127.0.0.1
+      KAFKA_ADVERTISED_HOST_NAME: localhost
       # 通过端口连接 zookeeper
       KAFKA_ZOOKEEPER_CONNECT: zookeeper1:2181
       # 外部网络只能获取到容器名称，在内外网络隔离情况下，通过名称是无法成功访问 kafka 的
       # 因此需要通过绑定这个监听器能够让外部获取到的是 IP(宿主机IP)
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://127.0.0.1:9093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9093
       KAFKA_ADVERTISED_PORT: 9093
       # kafka 监听器，告诉外部连接者要通过什么协议访问指定主机名和端口开放的 Kafka 服务
       KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9093
@@ -94,12 +94,12 @@ services:
     environment:
       KAFKA_BROKER_ID: 3
       # 广播主机名: 一般为宿主机 IP
-      KAFKA_ADVERTISED_HOST_NAME: 127.0.0.1
+      KAFKA_ADVERTISED_HOST_NAME: localhost
       # 通过端口连接 zookeeper
       KAFKA_ZOOKEEPER_CONNECT: zookeeper1:2181
       # 外部网络只能获取到容器名称，在内外网络隔离情况下，通过名称是无法成功访问 kafka 的
       # 因此需要通过绑定这个监听器能够让外部获取到的是 IP(宿主机IP)
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://127.0.0.1:9094
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9094
       KAFKA_ADVERTISED_PORT: 9094
       # kafka 监听器，告诉外部连接者要通过什么协议访问指定主机名和端口开放的 Kafka 服务
       KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9094
