@@ -70,7 +70,7 @@ bin/kafka-topics.sh --zookeeper 110.42.242.203:2181 --topic test-vj --delete
 
 ### 创建消费者
 ```shell
-# bin/kafka-console-consumer.sh --bootstrap-server 110.42.242.203:9092 --topic test-consumer --from-beginning
+bin/kafka-console-consumer.sh --bootstrap-server 110.42.242.203:9092 --topic kafka-node-test --from-beginning
 ```
 
 
