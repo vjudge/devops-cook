@@ -1,0 +1,42 @@
+version: '3.6'
+services:
+  consul1:
+    image: consul:latest
+    container_name: consul1
+    restart: always
+    command: agent -server -node=consul1 -bootstrap-expect=3 -bind=0.0.0.0 -client=0.0.0.0 -datacenter=dc1
+    volumes:
+      - /tmp/_docker/consul/consul1/data:/consul/data
+      - /tmp/_docker/consul/consul1/config:/consul/config
+
+  consul2:
+    image: consul:latest
+    container_name: consul2
+    restart: always
+    command: agent -server -retry-join=consul1 -node=consul2 -bind=0.0.0.0 -client=0.0.0.0 -datacenter=dc1
+    volumes:
+      - /tmp/_docker/consul/consul2/data:/consul/data
+      - /tmp/_docker/consul/consul2/config:/consul/config
+
+  consul3:
+    image: consul:latest
+    container_name: consul3
+    restart: always
+    command: agent -server -retry-join=consul1 -node=consul3 -bind=0.0.0.0 -client=0.0.0.0 -datacenter=dc1
+    volumes:
+      - /tmp/_docker/consul/consul3/data:/consul/data
+      - /tmp/_docker/consul/consul3/config:/consul/config
+
+  consul4:
+    image: consul:latest
+    container_name: consul4
+    restart: always
+    ports:
+      - 8500:8500
+    command: agent -retry-join=consul1 -node=client1 -ui -bind=0.0.0.0 -client=0.0.0.0 -datacenter=dc1
+    depends_on:
+      - consul2
+      - consul3
+    volumes:
+      - /tmp/_docker/consul/consul4/data:/consul/data
+      - /tmp/_docker/consul/consul4/config:/consul/config
