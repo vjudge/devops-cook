@@ -1,4 +1,4 @@
-version: '3
+version: '3'
 
 services:
   shadowsocks:
@@ -9,11 +9,11 @@ services:
       - "9102:8388/tcp"
       - "9102:8388/udp"
     environment:
-      - METHOD=aes-256-cfb
+      METHOD: aes-256-cfb
       # 密码
-      - PASSWORD=test@2021
-      - SERVER_ADDR: 0.0.0.0
-      - SERVER_ADDR_IPV6: ::0
-      - DNS_ADDRS=1.1.1.1,1.0.0.1
+      PASSWORD: test@2021
+      SERVER_ADDR: 0.0.0.0
+      SERVER_ADDR_IPV6: ::0
+      DNS_ADDRS: 1.1.1.1,1.0.0.1
 
     restart: always
