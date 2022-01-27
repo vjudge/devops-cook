@@ -4,7 +4,7 @@ services:
     image: consul:latest
     container_name: consul1
     restart: always
-    command: agent -server -node=consul1 -bootstrap-expect=3 -bind=0.0.0.0 -client=0.0.0.0 -datacenter=dc1
+    command: agent -server -node=consul1 -bootstrap-expect=3 -client=0.0.0.0 -datacenter=dc1
     volumes:
       - /tmp/_docker/consul/consul1/data:/consul/data
       - /tmp/_docker/consul/consul1/config:/consul/config
@@ -13,7 +13,7 @@ services:
     image: consul:latest
     container_name: consul2
     restart: always
-    command: agent -server -retry-join=consul1 -node=consul2 -bind=0.0.0.0 -client=0.0.0.0 -datacenter=dc1
+    command: agent -server -retry-join=consul1 -node=consul2 -client=0.0.0.0 -datacenter=dc1
     volumes:
       - /tmp/_docker/consul/consul2/data:/consul/data
       - /tmp/_docker/consul/consul2/config:/consul/config
@@ -22,7 +22,7 @@ services:
     image: consul:latest
     container_name: consul3
     restart: always
-    command: agent -server -retry-join=consul1 -node=consul3 -bind=0.0.0.0 -client=0.0.0.0 -datacenter=dc1
+    command: agent -server -retry-join=consul1 -node=consul3 -client=0.0.0.0 -datacenter=dc1
     volumes:
       - /tmp/_docker/consul/consul3/data:/consul/data
       - /tmp/_docker/consul/consul3/config:/consul/config
@@ -33,7 +33,7 @@ services:
     restart: always
     ports:
       - 8500:8500
-    command: agent -retry-join=consul1 -node=client1 -ui -bind=0.0.0.0 -client=0.0.0.0 -datacenter=dc1
+    command: agent -retry-join=consul1 -node=client1 -ui -client=0.0.0.0 -datacenter=dc1
     depends_on:
       - consul2
       - consul3
