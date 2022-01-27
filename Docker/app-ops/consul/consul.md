@@ -74,7 +74,10 @@ docker exec -t node1 consul kv get -detailed user/config/connections
 ```
 
 
-
+### 进入容器
+```shell
+docker exec -it consul1 /bin/sh
+```
 
 
 
