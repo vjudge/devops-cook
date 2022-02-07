@@ -1,11 +1,14 @@
-# Consul
-Consul 是提供服务发现的工具
+# [Consul](https://www.consul.io)
+Consul 是 HashiCorp 公司推出的一个用于实现分布式系统的服务发现与配置工具。Consul 使用 Go 语言编写，具有天然可移植性，支持多平台部署
+
+Consul 内置了服务注册与发现、分布一致性协议实现、dns 解析、健康检查、Key/Value 存储、多数据中心方案
 
 Consul 是分布式的、高可用的、横向扩展的。consul 特性
 * 服务发现: 通过 DNS 或者 HTTP 接口使服务注册和服务发现变的很容易
-* 健康检查: 健康检测使 consul 可以快速的告警在集群中的操作。和服务发现的集成，可以防止服务转发到故障的服务上面
+* 健康检查: Consul 提供了健康检查的机制，从简单的服务端是否返回 200 的响应代码到较为复杂的内存使用率是否低于 90%
 * key/value 存储: 一个用来存储动态配置的系统。提供简单的HTTP接口，可以在任何地方操作
 * 多数据中心: 无需复杂的配置，即可支持任意数量的区域
+* Web UI : Consul 提供了一个漂亮的 Web 界面，可以轻松使用和管理 consul 中的所有功能
 
 
 ### client 模式
@@ -24,10 +27,26 @@ Consul安装之后，代理必须运行。 代理可以在服务器或客户端�
 ### Consul 命令
 members命令的输出基于gossip协议，并最终一致
 ```shell
+# 开发模式下启动代理
+consul agent -dev
+# 退出代理: 节点上的服务和健康检查全部注销
+# 在当前节点执行
+consul leave
+# 可在其他任意节点执行
+consul force-leave [node-id]
+# 持续打印当前 Consul 的日志信息
+consul monitor
+
 # 查看集群成员
 consul members
 # 查看集群成员更多元数据
 consul members -detailed
+
+# 查询所有注册服务
+consul catalog services
+
+# 反注册: 删除注册的服务
+consul services deregister -id=app-serv
 ```
 
 在任何时候，当地代理所看到的可能与服务器上的状态不完全一致。要获得完全一致，可以使用 HTTP API 将 HTTP 请求转发给 Consul 服务器
@@ -82,7 +101,10 @@ curl http://127.0.0.1:8500/v1/agent/service/register -X PUT -i -H "Content-Type:
 
 ### 服务发现
 ```shell
-curl http://127.0.0.1:8500/v1/catalog/service/userService
+# 查询注册的服务
+curl http://localhost:8500/v1/catalog/services
+# passing=false，会自动过滤掉不健康的服务，包括本身不健康的服务和不健康的Consul节点上的服务
+curl http://127.0.0.1:8500/v1/catalog/service/app-serv?passing=false
 ```
 
 
