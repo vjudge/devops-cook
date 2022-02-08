@@ -25,10 +25,9 @@ Consul安装之后，代理必须运行。 代理可以在服务器或客户端�
 
 
 ### Consul 命令
-members命令的输出基于gossip协议，并最终一致
+members 命令的输出基于gossip协议，并最终一致
 ```shell
-# 开发模式下启动代理
-consul agent -dev
+
 # 退出代理: 节点上的服务和健康检查全部注销
 # 在当前节点执行
 consul leave
@@ -36,14 +35,6 @@ consul leave
 consul force-leave [node-id]
 # 持续打印当前 Consul 的日志信息
 consul monitor
-
-# 查看集群成员
-consul members
-# 查看集群成员更多元数据
-consul members -detailed
-
-# 查询所有注册服务
-consul catalog services
 
 # 反注册: 删除注册的服务
 consul services deregister -id=app-serv
@@ -139,34 +130,6 @@ curl http://localhost:8500/v1/health/state/critical
 # DNS 查询
 dig @127.0.0.1 -p 8600 web.service.consul
 ```
-
-
-### KV Data
-```shell
-# 添加 key-value
-# 要更新现有key的值，请在相同路径上put一个值
-consul kv put redis/config/minconns 1
-consul kv put redis/config/maxconns 10
-consul kv put -flags=42 redis/config/users/admin 123456
-
-# 查看 key 的 value 值
-consul kv get redis/config/minconns
-# 获取更多元数据
-consul kv get -detailed redis/config/minconns
-
-# 递归列出所有 key 和 value，结果以字典序返回
-consul kv get -recurse
-
-# 删除某个 key 值
-consul kv delete redis/config/minconns
-# 递归删除某个前缀的 key
-consul kv delete -recurse redis
-
-# CAS 操作提供原子键更新，需指定 -cas 选项
-consul kv put -cas -modify-index=716 foo bar
-```
-
-
 
 
 

@@ -9,6 +9,10 @@
 显示当前集群 leader
 
 
+### /v1/catalog/nodes
+查看所有节点
+
+
 ### /v1/catalog/services
 显示当前注册的服务
 
