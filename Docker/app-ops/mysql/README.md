@@ -3,13 +3,13 @@
 
 ### 创建用户
 ```shell
-CREATE USER 'username'@'%' IDENTIFIED BY 'password';
+CREATE USER 'test'@'%' IDENTIFIED BY 'qwe@168';
 ```
 
 
 ### 授权使用数据库
 ```shell
-GRANT ALL ON *.* TO 'username'@'%';
+GRANT ALL ON *.* TO 'test'@'%';
 ```
 
 
