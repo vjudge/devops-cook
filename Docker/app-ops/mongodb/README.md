@@ -11,6 +11,7 @@ $ docker exec -it mongodb bash
 ```shell
 $ mongo -u admin -p admin@123 --authenticationDatabase vjudgedb
 $ mongo -u admin --authenticationDatabase vjudgedb
+$ mongo mongodb://admin:admin@123@127.0.0.1:6030/yapidb
 ```
 
 
@@ -27,7 +28,7 @@ db.getSiblingDB('admin')
 
 ### 数据库链接
 ```shell
-mongodb://test:qwe@168@127.0.0.1:27017/vjudgedb
+mongodb://test:qwe@168@127.0.0.1:6030/vjudgedb
 ```
 
 

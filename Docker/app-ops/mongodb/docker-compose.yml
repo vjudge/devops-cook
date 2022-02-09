@@ -10,7 +10,10 @@ services:
       - /tmp/_docker/log:/var/log/mongodb
     ports:
       - 6030:27017
+    expose:
+      # Opens port 3306 on the container
+      - 27017
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
-      MONGO_INITDB_ROOT_PASSWORD: admin@123
+      MONGO_INITDB_ROOT_PASSWORD: admin123
       MONGO_INITDB_DATABASE: yapidb
