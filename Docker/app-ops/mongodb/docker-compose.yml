@@ -1,0 +1,16 @@
+version: '3.6'
+
+services:
+  mongodb:
+    image: mongo:4.4
+    container_name: mongodb
+    restart: always
+    volumes:
+      - /tmp/_docker/mongo/db:/data/db
+      - /tmp/_docker/log:/var/log/mongodb
+    ports:
+      - 6030:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin@123
+      MONGO_INITDB_DATABASE: yapidb
