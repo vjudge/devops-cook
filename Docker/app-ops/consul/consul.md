@@ -28,7 +28,7 @@ mkdir ~/_data/consul
 * node: 指定节点名称, 集群中节点名称唯一
 * client: 绑定客户端接口地址, 0.0.0.0 表示所有地址都可以访问
 ```shell
-docker run -d -p 8500:8500 -v /home/work/_data/consul:/consul/data -e CONSUL_BIND_INTERFACE='eth0' --name=consul1 consul agent -server -bootstrap -ui -client='0.0.0.0'
+docker run -d -p 8500:8500 -v /tmp/_docker/consul:/consul/data -e CONSUL_BIND_INTERFACE='eth0' --name=consul1 consul agent -server -bootstrap -ui -client='0.0.0.0'
 ```
 
 
