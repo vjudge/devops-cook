@@ -34,7 +34,7 @@ services:
       # kafka 监听器，告诉外部连接者要通过什么协议访问指定主机名和端口开放的 Kafka 服务
       KAFKA_LISTENERS: PLAINTEXT://:9092
       # kafka 自动创建 topic，对于生成者与消费者连接的 TOPIC 不存在自动创建
-      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "false"
       # kafka 开启删除 topic，开了自动创建，删除的也要开，否则删除后还会自动创建
       KAFKA_DELETE_TOPIC_ENABLE: "true"
       # 设置 kafka 日志位置
@@ -69,7 +69,7 @@ services:
       # kafka 监听器，告诉外部连接者要通过什么协议访问指定主机名和端口开放的 Kafka 服务
       KAFKA_LISTENERS: PLAINTEXT://:9093
       # kafka 自动创建 topic，对于生成者与消费者连接的 TOPIC 不存在自动创建
-      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "false"
       # kafka 开启删除 topic，开了自动创建，删除的也要开，否则删除后还会自动创建
       KAFKA_DELETE_TOPIC_ENABLE: "true"
       # 设置 kafka 日志位置
@@ -104,7 +104,7 @@ services:
       # kafka 监听器，告诉外部连接者要通过什么协议访问指定主机名和端口开放的 Kafka 服务
       KAFKA_LISTENERS: PLAINTEXT://:9094
       # kafka 自动创建 topic，对于生成者与消费者连接的 TOPIC 不存在自动创建
-      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "false"
       # kafka 开启删除 topic，开了自动创建，删除的也要开，否则删除后还会自动创建
       KAFKA_DELETE_TOPIC_ENABLE: "true"
       # 设置 kafka 日志位置
