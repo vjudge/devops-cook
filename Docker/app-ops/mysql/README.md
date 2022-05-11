@@ -3,7 +3,7 @@
 
 ### 创建用户
 ```shell
-CREATE USER 'test'@'%' IDENTIFIED BY 'qwe@168';
+CREATE USER 'test'@'%' IDENTIFIED BY 'co-engine@123';
 ```
 
 
