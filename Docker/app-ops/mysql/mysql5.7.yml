@@ -15,7 +15,7 @@ services:
       TZ: Asia/Shanghai
       MYSQL_ROOT_PASSWORD: root@123
       MYSQL_USER: test
-      MYSQL_PASS: qwe@168
+      MYSQL_PASS: co-engine@123
     command:
       --character-set-server=utf8mb4
       --collation-server=utf8mb4_general_ci
