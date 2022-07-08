@@ -7,7 +7,7 @@ services:
     ports:
       - '16379:16379'
     volumes:
-      - /opt/redis-stable/redis.conf:/etc/redis/redis.conf
+      - ./redis.conf:/etc/redis/redis.conf
       - /home/vjudge/_cache/redis/data:/data
-    command: redis-server /etc/redis/redis.conf --appendonly yes
+    command: redis-server /etc/redis/redis.conf
     privileged: true
